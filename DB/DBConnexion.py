@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker, query
 from sqlalchemy.ext.declarative import declarative_base 
 from sqlalchemy.sql import func
 
-engine = create_engine("mysql+pymysql://root:root@localhost/ButGitizi_05?charset=utf8mb4")
+engine = create_engine("mysql+pymysql://xenophon-it:123@localhost/ButGitizi_07?charset=utf8mb4")
 
 Session = sessionmaker(bind=engine)
 session = Session()

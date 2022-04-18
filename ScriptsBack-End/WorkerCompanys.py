@@ -1,6 +1,8 @@
 import sys         
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\DB')
 from DBConnexion import *
 
 from ClientCompany import *
@@ -17,8 +19,21 @@ from datetime import date
 
 def AddWorkerInDataBase(phoneNumberOfUser,fullName,professionWorker,professionCoefficient,profileWorker,departName,GrossSalary): 
     try:
-        profileWorker = profileWorker.encode('ascii')
-        profileWorkerBin = base64.b64encode(profileWorker)
+        print()
+        if(len(profileWorker)==3):
+            logoCompanyInLocal="D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\Images\default-avatar.jpg"
+            # Open a file in binary mode
+
+            with open(logoCompanyInLocal, "rb") as img_file:
+                file = base64.b64encode(img_file.read())
+            logoBinnary = file.decode('utf-8')
+
+            profileImageChange = logoBinnary.encode('ascii')
+            profileWorkerBin = base64.b64encode(profileImageChange)
+            
+        else:
+            profileWorker = profileWorker.encode('ascii')
+            profileWorkerBin = base64.b64encode(profileWorker)
         selectRequette=""
 
         comp = session.query(Company).filter(Company.phoneNumberClientCompany==phoneNumberOfUser)

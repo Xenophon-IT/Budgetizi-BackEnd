@@ -1,7 +1,9 @@
 # Import the required modules
 import sys         
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\DB')
 from DBConnexion import *
 from Company import *
 import base64
@@ -11,7 +13,7 @@ from datetime import date
 def sginUpCompany(nameCompany,companAct,country,currency,phoneUser):
     resultSignUp = 0
     selectRequette=""
-    logoCompanyInLocal="D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Images\default-avatar.jpg"
+    logoCompanyInLocal="D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\Images\ButGitizi-01.png"
     # Open a file in binary mode
 
     with open(logoCompanyInLocal, "rb") as img_file:
@@ -21,7 +23,8 @@ def sginUpCompany(nameCompany,companAct,country,currency,phoneUser):
     profileImageChange = logoBinnary.encode('ascii')
     logoBinnary2 = base64.b64encode(profileImageChange)
 
-
+    # print(logoBinnary2)
+    # resultSignUp = 1
     company = session.query(Company).filter(Company.nameCompany == nameCompany)
     for comp in company:
         selectRequette = comp.nameCompany
@@ -59,7 +62,11 @@ def getInformationCompanyDB(phoneUserNumber):
         selectRequette.append(comp.nbOfWorker)
         selectRequette.append(comp.currency)
         selectRequette.append(comp.creationDate)
-        selectRequette.append(base64.b64decode(comp.logoCompany.decode('ascii')))
+        print(len(comp.logoCompany.decode('ascii')))
+        if(len(comp.logoCompany.decode('ascii'))==5744):
+            selectRequette.append("data:image/jpeg;base64,"+(base64.b64decode(comp.logoCompany.decode('ascii'))).decode("utf-8") )
+        else:
+            selectRequette.append(base64.b64decode(comp.logoCompany.decode('ascii')))
         selectRequette.append(comp.telePhone)
         selectRequette.append(comp.cellNumber)
         selectRequette.append(comp.taxRegNum)

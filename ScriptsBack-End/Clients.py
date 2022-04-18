@@ -1,6 +1,8 @@
 import sys         
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\DB')
 from DBConnexion import *
 from ClientCompany import *
 import jwt
@@ -17,6 +19,7 @@ def sginUpClient(firstName,lastName,emailUser,phoneUser,passwordUser,imageUser):
     rowsInClCom = session.query(ClientCompany).count()
     profileImageChange = imageUser.encode('ascii')
     profileImageBin = base64.b64encode(profileImageChange)
+    # print(profileImageBin)
 
     #In this bloc we check if the email is use it and also the phone of user
     try:
@@ -78,7 +81,8 @@ def getInformationClientFromDB(emailAdress):
         phoneNumber = jwt.encode({"phoneNumber": cC.phoneNumber}, "xenophon-IT_ButGitizi", algorithm="HS256")
         selectRequette.append(phoneNumber)
         selectRequette.append(jwt.decode(cC.passwordClient, "xenophon-IT_ButGitizi", algorithms=["HS256"])['passwordClient'])
-        selectRequette.append(base64.b64decode(cC.imageClient.decode('ascii')))
+        # print(base64.b64decode(cC.imageClient.decode('ascii')))
+        selectRequette.append(base64.b64decode(cC.imageClient.decode('ascii')).decode("utf-8"))
         selectRequette.append(cC.lenImageClient)
         selectRequette.append(cC.verifNumber)
     

@@ -1,7 +1,8 @@
 import sys         
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
-
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\DB')
 import base64
 
 from DBConnexion import *
@@ -234,8 +235,8 @@ def calculPhase2OffreFromDB(idOffre):
             totaleProposition = round(selectRequette[2],3)
             totaleRevient = round(selectRequette[3],3)
             CostsGlobale = round(selectRequette[4],3)
-            totaleMargeBrute = round(selectRequette[5],3)
-            totaleMargeNet = round(selectRequette[6],3)
+            totaleMargeNet = round(selectRequette[5],3)
+            totaleMargeBrute = round(selectRequette[6],3)
             totaleMargeNetPC = round((totaleMargeNet / totaleProposition)*100)
 
             print(totaleProposition)

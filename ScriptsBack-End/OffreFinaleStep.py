@@ -1,8 +1,8 @@
 import sys         
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
-
-
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\DB')
 from DBConnexion import *
 from workCGOffre import *
 from workCGOffreForStep2 import *
@@ -105,4 +105,14 @@ def getInformationOffreFinale(idOffreSend):
     for gOF in globOff:
         selectRequette.append(GlobalOffreModel(gOF.idOffre,gOF.globalDaysOfWork,gOF.globalProposition,gOF.globalRevient,gOF.globalRevientAndFG,gOF.globalMargeBrute,gOF.globalMargeNete,gOF.globalFinaleMarge,gOF.companyId))
     
+    return selectRequette
+
+def getInformationFromOffresStep4(idOffreSend):
+    selectRequette=[]
+
+    globalOffre = session.query(GlobalOffre).filter(GlobalOffre.idOffre==idOffreSend)      
+    for go in globalOffre:
+        selectRequette.append(go.totaleFinalHT)
+        selectRequette.append(go.totaleFinalTTC)
+    print(selectRequette)
     return selectRequette

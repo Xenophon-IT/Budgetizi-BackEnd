@@ -29,6 +29,7 @@ async def getInformationFromCompanyDB(request: Request):
     phoneNumber = req['phoneNumber']
 
     resutFunction = getInformationCompanyDB(phoneNumber)
+    print(resutFunction)
 
     return {
         "resutFunction" : resutFunction

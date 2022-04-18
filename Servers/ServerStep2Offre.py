@@ -82,11 +82,13 @@ async def deleteAnWorkerFromOffre(request: Request):
 
 #This request POST for calculate the step one of offre for step2
 @app.post("/company/calculPhase2Offre")
-async def calculPhase1Offre(request: Request):
+async def calculPhase2Offre(request: Request):
     req = await request.json()
 
     idOffreSend = req['idOffreSend']
     phoneNumber = req['phoneNumber']
+    print("ddddddddddddddddddddddd")
+    print(idOffreSend, phoneNumber)
 
     resutFunction1 = calculPhase2OffreFromDB(idOffreSend)
     resutFunction = getInformationFromOffresStep2(idOffreSend,phoneNumber)
