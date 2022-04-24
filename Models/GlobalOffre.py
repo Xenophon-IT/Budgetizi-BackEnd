@@ -1,6 +1,6 @@
 import sys         
 # sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
-sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\DB')  
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\DB')  
 from DBConnexion import *
 from Company import *
 
@@ -31,6 +31,19 @@ class GlobalOffreFinal():
         self.totaleFinalTTC = totaleFinalTTC
         self.companyId = companyId
 
+
+class AllOffres():
+    def __init__(self,idOffre,globalPropositionStPrWR,globalMargeNete,totaleFinalHT,dateCreation,nomNegociateur,status,remisePercent,description):
+        self.idOffre = idOffre
+        self.globalPropositionStPrWR = globalPropositionStPrWR
+        self.globalMargeNete = globalMargeNete
+        self.totaleFinalHT = totaleFinalHT
+        self.dateCreation = dateCreation
+        self.nomNegociateur = nomNegociateur
+        self.status = status
+        self.remisePercent = remisePercent
+        self.description = description
+
 class GlobalOffre(Base):
     __tablename__ = 'GlobalOffre'
     idOffre = Column(String(255), primary_key=True)
@@ -41,8 +54,10 @@ class GlobalOffre(Base):
     globalMargeBrute = Column(Float, nullable=True)
     globalMargeNete = Column(Float, nullable=True)
     globalFinaleMarge = Column(Float, nullable=True)
+    globalPropositionStPr = Column(Float, nullable=True)
     totaleFinalHT = Column(Float, nullable=True)
     totaleFinalTTC = Column(Float, nullable=True)
+    dateCreation = Column(String(255), nullable=True)
     companyId = Column(Integer, ForeignKey(Company.companyId),nullable=True)
 
 Base.metadata.create_all(engine)

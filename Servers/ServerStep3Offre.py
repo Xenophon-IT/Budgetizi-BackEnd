@@ -1,5 +1,5 @@
 import sys         
-sys.path.append('D:\Xenophon-IT\ButGitizi\Partie-BackEnd\Servers')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\Servers')
 
 from ServerMain import *
 
@@ -17,7 +17,7 @@ async def Step3Offre(request: Request):
 
     resutFunction1 = checkIntoGlobalOffre(idOffre,phoneNumber)
 
-    print(resutFunction1)
+    # print(resutFunction1)
     
     if(resutFunction1 == 1):
         #Not now the next script

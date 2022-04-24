@@ -1,5 +1,5 @@
 import sys         
-sys.path.append('D:\Xenophon-IT\ButGitizi\Partie-BackEnd\Servers')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\Servers')
 
 from ServerMain import *
 

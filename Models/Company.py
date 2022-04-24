@@ -1,6 +1,6 @@
 import sys         
 # sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB') 
-sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\DB')  
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\DB')  
 
 from DBConnexion import *
 from ClientCompany import *
@@ -22,6 +22,7 @@ class Company(Base):
     addressCompany = Column(String(255), nullable=True)
     City = Column(String(255), nullable=True)
     ZIPCode = Column(Integer, nullable=True)
+    addressLocal = Column(String(255), nullable=True)
     webSite = Column(String(255), nullable=True)
     firstNameCEO = Column(String(255), nullable=True)
     lastNameCEO = Column(String(255),nullable=True)

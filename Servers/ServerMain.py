@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 import sys         
 # sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\ScriptsBack-End')
-sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\ScriptsBack-End')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\ScriptsBack-End')
 
 from Clients import *
 from Companies import *
@@ -14,6 +14,8 @@ from OffreStep2 import *
 from OffreStep3 import *
 from OffreStep4 import *
 from OffreFinaleStep import *
+from ArchivesOffres import *
+from PrintOffres import *
 
 app = FastAPI()
 
@@ -38,6 +40,8 @@ from ServerStep2Offre import *
 from ServerStep3Offre import *
 from ServerStep4Offre import *
 from ServerFinalOffre import *
+from ServerArchivesOffres import *
+from ServerPrintOffres import *
 
 if __name__ == "__main__":
     uvicorn.run("ServerMain:app", host="localhost", port=5050, reload=True)

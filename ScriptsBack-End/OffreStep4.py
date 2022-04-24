@@ -1,14 +1,15 @@
 import sys         
 # sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
 # sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
-sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\Models')
-sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\DB')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\DB')  
 import base64
 
 from DBConnexion import *
 from GlobalOffre import *
 from Company import *
 from OffresStep4 import *
+from Negotiation import *
 
 def checkIntoGlobalOffre(idOffre,phoneNumberOfUser):
     try:
@@ -116,14 +117,23 @@ def calculPhase4OffreFromDB(idOffreSend):
         selectRequette.append(_res[1])
         selectRequette.append(_res[2])
 
+    print("Hhhhhhhhhhhhhhh")
     print(selectRequette)
-
+    pS4 = session.query(GlobalOffre).filter(GlobalOffre.idOffre == idOffreSend)
+    for i in pS4:
+        valProp = i.globalProposition
     productStep4 = session.query(GlobalOffre).filter(GlobalOffre.idOffre == idOffreSend).first()
+    productStep4.globalPropositionStPr = valProp + selectRequette[1]
+    print(productStep4.globalPropositionStPr)
+    print(valProp + selectRequette[1])
     productStep4.totaleFinalHT = selectRequette[1]
     productStep4.totaleFinalTTC = selectRequette[2]
     session.commit()
-    
 
+    # neg = session.query(Negotiation).filter(Negotiation.idOffre == idOffreSend).first()
+    # neg.globalPropositionStPrWR = valProp + selectRequette[1]
+    # print(neg.globalPropositionStPrWR)
+    # session.commit()
 
 
     

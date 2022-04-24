@@ -1,5 +1,5 @@
 import sys         
-sys.path.append('D:\Xenophon-IT\ButGitizi\Partie-BackEnd\Servers')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\Servers')
 from ServerMain import *
 
 #This request POST for calculate the step one of offre for totality
@@ -92,10 +92,27 @@ async def getAllInformationForStep3(request: Request):
     resutFunction7 = getInformationsOfProduct(idOffreSend, phoneNumber)
     resutFunction8 = getInformationFromOffresStep4(idOffreSend)
 
-    print(resutFunction7)
-    print(resutFunction8)
+    # print(resutFunction7)
+    # print(resutFunction8)
 
     return {
         "resutFunction7" : resutFunction7,
         "resutFunction8" : resutFunction8
+    }
+
+#This request POST for calculate the step one of offre for totality
+@app.post("/company/addNegociateur")
+async def addNegociateur(request: Request):
+    req = await request.json()
+
+    idOffreSend = req['idOffreSend']
+    phoneNumber = req['phoneNumber']
+    nameNegociateur = req['nameNegociateur']
+
+    resutFunction = addNegotiation(idOffreSend,phoneNumber,nameNegociateur)
+
+    # print(resutFunction)
+
+    return {
+        "resutFunction" : resutFunction,
     }

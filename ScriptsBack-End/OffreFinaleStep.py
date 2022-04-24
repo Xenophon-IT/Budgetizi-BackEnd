@@ -1,8 +1,8 @@
 import sys         
 # sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
 # sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
-sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\Models')
-sys.path.append('D:\Xenophon-IT\ButGitizi-Xenophon-IT\Budgetizi-BackEnd-ButGitizi-BackEnd-01\DB')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\DB')  
 from DBConnexion import *
 from workCGOffre import *
 from workCGOffreForStep2 import *
@@ -12,6 +12,8 @@ from OffresStep2 import *
 from OffresStep3 import *
 from WorkerCompany import *
 from GlobalOffre import *
+from Negotiation import *
+from OffresStep4 import *
 
 import base64
 
@@ -112,7 +114,36 @@ def getInformationFromOffresStep4(idOffreSend):
 
     globalOffre = session.query(GlobalOffre).filter(GlobalOffre.idOffre==idOffreSend)      
     for go in globalOffre:
+        selectRequette.append(go.globalPropositionStPr)
         selectRequette.append(go.totaleFinalHT)
         selectRequette.append(go.totaleFinalTTC)
     print(selectRequette)
     return selectRequette
+
+def addNegotiation(idOffreSend,phoneNumber,nameNegociateur):
+    session.add(Negotiation(idOffre=idOffreSend,nomNegociateur=nameNegociateur,status="warning",remisePercent=0,globalPropositionStPrWR=0,globalMargeNetteStPrWR=0,description="En Négociation"))
+    session.commit()
+
+    selectRequette = []
+    qry = session.query(func.sum(OffresStep4.quantity), 
+        func.sum(OffresStep4.totaleHT),
+        func.sum(OffresStep4.totaleTTC),
+        ).filter(OffresStep4.idOffre==idOffreSend).group_by(OffresStep4.idOffre)
+
+    for _res in qry.all():
+        selectRequette.append(int(_res[0]))
+        selectRequette.append(_res[1])
+        selectRequette.append(_res[2])
+
+    print(selectRequette)
+    pS4 = session.query(GlobalOffre).filter(GlobalOffre.idOffre == idOffreSend)
+    for i in pS4:
+        valProp = i.globalProposition
+        valMargeNette = i.globalMargeNete
+
+    neg = session.query(Negotiation).filter(Negotiation.idOffre == idOffreSend).first()
+    neg.globalPropositionStPrWR = valProp + selectRequette[1]
+    neg.globalMargeNetteStPrWR = 0
+    print(neg.globalPropositionStPrWR)
+    session.commit()
+    return 1
