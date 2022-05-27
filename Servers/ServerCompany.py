@@ -1,5 +1,5 @@
 import sys         
-sys.path.append('D:\Xenophon-IT\ButGitizi\Partie-BackEnd\Servers')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\Servers')
 
 from ServerMain import *
 
@@ -29,6 +29,7 @@ async def getInformationFromCompanyDB(request: Request):
     phoneNumber = req['phoneNumber']
 
     resutFunction = getInformationCompanyDB(phoneNumber)
+    # print(resutFunction)
 
     return {
         "resutFunction" : resutFunction
@@ -48,12 +49,47 @@ async def EditInformationOfCompany(request: Request):
     emailUserCompanySend = req['emailUserCompanySend']
     citySend = req['citySend']
     zipCodeSend = req['zipCodeSend']
+    addressLocal = req['addressLocal']
     logoCompanySend = req['logoCompanySend']
     addressCompanySend = req['addressCompanySend']
     taxRegNumSend = req['taxRegNumSend']
 
-    resutFunction = EditInformationOfCompanyDB(phoneNumber,nameCompanySend,telePhoneSend,cellNumberSend,webSiteSend,firstNameProfileSend,lastNameProfileSend,emailUserCompanySend,citySend,zipCodeSend,logoCompanySend,addressCompanySend,taxRegNumSend)
+    resutFunction = EditInformationOfCompanyDB(phoneNumber,nameCompanySend,telePhoneSend,cellNumberSend,webSiteSend,firstNameProfileSend,lastNameProfileSend,emailUserCompanySend,citySend,zipCodeSend,addressLocal,logoCompanySend,addressCompanySend,taxRegNumSend)
 
     return {
         "resutFunction" : resutFunction
     }
+
+#This request post for get all the informations of companys user
+@app.post("/company/getAllNesscaryInformation")
+async def getAllNesscaryInformation(request: Request):
+    req = await request.json()
+    idOffreSend = req['idOffreSend']
+    phoneNumber = req['phoneNumber']
+
+    resutFunction = getAllNesscaryInformationDB(idOffreSend,phoneNumber)
+
+    return {
+        "resutFunctionOFCompanies" : resutFunction[0],
+        "resutFunctionForStep1": resutFunction[1],
+        "resutFunctionForStep2": resutFunction[2],
+        "resutFunctionForStep3": resutFunction[3],
+        "resutFunctionForStep4": resutFunction[4],
+        "resutFunctionForGlobalOffre": resutFunction[5],
+
+    }
+    
+#This request post for get all the informations of companys user
+@app.post("/company/checkLocalStorageValue")
+async def getAllNesscaryInformation(request: Request):
+    req = await request.json()
+    phoneUser = req['phoneUser']
+    emailProfile = req['emailProfile']
+
+    print(phoneUser)
+    print(emailProfile)
+    resutFunction = checkTheCurrentCompte(phoneUser,emailProfile)
+    return {
+        "resutFunction": resutFunction
+    }
+    

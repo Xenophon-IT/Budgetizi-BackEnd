@@ -1,5 +1,6 @@
 import sys         
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\DB')  
 from DBConnexion import *
 
 class ClientCompany(Base):

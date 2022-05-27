@@ -1,7 +1,8 @@
 import sys         
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
-
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\DB')  
 import base64
 
 from DBConnexion import *

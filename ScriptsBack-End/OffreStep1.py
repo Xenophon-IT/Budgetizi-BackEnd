@@ -1,7 +1,8 @@
 import sys         
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
-
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\Models')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\DB')  
 import base64
 
 from DBConnexion import *
@@ -12,8 +13,11 @@ from WorkerCompany import *
 from Salary import *
 from workCGOffre import *
 
+from datetime import datetime
+
 def insertIntoGlobalOffre(idOffre,phoneNumberOfUser):
     try:
+        dateToday = datetime.today().strftime('%Y-%m-%d')
         selectRequette0=""
 
         globalOffre = session.query(GlobalOffre).filter(GlobalOffre.idOffre == idOffre)
@@ -26,7 +30,7 @@ def insertIntoGlobalOffre(idOffre,phoneNumberOfUser):
             for co in comp:
                 selectRequette = co.companyId
 
-            session.add(GlobalOffre(idOffre=idOffre,companyId=selectRequette,globalDaysOfWork=0,globalProposition=0,globalRevient=0,globalRevientAndFG=0,globalMargeBrute=0,globalMargeNete=0,globalFinaleMarge=0))
+            session.add(GlobalOffre(idOffre=idOffre,companyId=selectRequette,globalDaysOfWork=0,globalProposition=0,globalRevient=0,globalRevientAndFG=0,globalMargeBrute=0,globalMargeNete=0,globalFinaleMarge=0,globalPropositionStPr=0,dateCreation=str(dateToday)))
             session.commit()
             print("Sucess add into GlobalOffre table")
             return 1

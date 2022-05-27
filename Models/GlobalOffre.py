@@ -1,5 +1,6 @@
 import sys         
-sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
+# sys.path.append('D:\Dali\B.IZI.V.Alfa\ButGitizi\Partie-BackEnd\DB')  
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\DB')  
 from DBConnexion import *
 from Company import *
 
@@ -15,6 +16,46 @@ class GlobalOffreModel():
         self.globalFinaleMarge = globalFinaleMarge
         self.companyId = companyId
 
+
+class GlobalOffreFinal():
+    def __init__(self,idOffre,globalDaysOfWork,globalProposition,globalRevient,globalRevientAndFG,globalMargeBrute,globalMargeNete,globalFinaleMarge,totaleFinalHT,totaleFinalTTC,companyId,prixRevientTotalefromStep4,margeNetTotalefromStep4):
+        self.idOffre = idOffre
+        self.globalDaysOfWork  = globalDaysOfWork
+        self.globalProposition = globalProposition
+        self.globalRevient = globalRevient
+        self.globalRevientAndFG = globalRevientAndFG
+        self.globalMargeBrute = globalMargeBrute
+        self.globalMargeNete = globalMargeNete
+        self.globalFinaleMarge = globalFinaleMarge
+        self.totaleFinalHT = totaleFinalHT
+        self.totaleFinalTTC = totaleFinalTTC
+        self.companyId = companyId
+        self.prixRevientTotalefromStep4 = prixRevientTotalefromStep4
+        self.margeNetTotalefromStep4 = margeNetTotalefromStep4
+
+
+class AllOffres():
+    def __init__(self,idOffre,globalPropositionStPrWR,globalMargeNete,totaleFinalHT,dateCreation,nomNegociateur,status,remisePercent,description):
+        self.idOffre = idOffre
+        self.globalPropositionStPrWR = globalPropositionStPrWR
+        self.globalMargeNete = globalMargeNete
+        self.totaleFinalHT = totaleFinalHT
+        self.dateCreation = dateCreation
+        self.nomNegociateur = nomNegociateur
+        self.status = status
+        self.remisePercent = remisePercent
+        self.description = description
+
+class AllOffresFromDB():
+    def __init__(self,idOffre,dateCreation,totalePropositionS1,totalePropositionS2,totalePropositionS3,margeNetTotalefromStep4,prixRevientTotalefromStep4):
+        self.idOffre = idOffre
+        self.dateCreation = dateCreation
+        self.totalePropositionS1 = totalePropositionS1
+        self.totalePropositionS2 = totalePropositionS2
+        self.totalePropositionS3 = totalePropositionS3
+        self.margeNetTotalefromStep4 = margeNetTotalefromStep4
+        self.prixRevientTotalefromStep4 = prixRevientTotalefromStep4
+
 class GlobalOffre(Base):
     __tablename__ = 'GlobalOffre'
     idOffre = Column(String(255), primary_key=True)
@@ -25,6 +66,12 @@ class GlobalOffre(Base):
     globalMargeBrute = Column(Float, nullable=True)
     globalMargeNete = Column(Float, nullable=True)
     globalFinaleMarge = Column(Float, nullable=True)
+    globalPropositionStPr = Column(Float, nullable=True)
+    totaleFinalHT = Column(Float, nullable=True)
+    totaleFinalTTC = Column(Float, nullable=True)
+    dateCreation = Column(String(255), nullable=True)
+    prixRevientTotalefromStep4 = Column(Float, nullable=True)
+    margeNetTotalefromStep4 = Column(Float, nullable=True)
     companyId = Column(Integer, ForeignKey(Company.companyId),nullable=True)
 
 Base.metadata.create_all(engine)

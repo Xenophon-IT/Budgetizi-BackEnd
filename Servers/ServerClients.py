@@ -1,5 +1,5 @@
 import sys         
-sys.path.append('D:\Xenophon-IT\ButGitizi\Partie-BackEnd\Servers')
+sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\Servers')
 
 from ServerMain import *
 
@@ -57,6 +57,7 @@ async def checkCodeNotif(request: Request):
 
     resutFunction = checkTheCodeFromDB(emailAdress,codeNotif)
 
+    print(resutFunction)
     if(not resutFunction):
         variableCodeCheck = 0
         print("There's not code !")
