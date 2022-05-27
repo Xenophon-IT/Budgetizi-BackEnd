@@ -32,6 +32,7 @@ class OffresStep4(Base):
     totaleHT = Column(Float, nullable=True)
     totaleTTC = Column(Float, nullable=True)
     description = Column(String(255), nullable=True)
+    prixUnitaire = Column(Float, nullable=True)
     PrimaryKeyConstraint(idOffre,referenceProduit)
 
 Base.metadata.create_all(engine)

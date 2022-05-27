@@ -4,6 +4,7 @@ import sys
 sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\Models')
 sys.path.append('D:\Xenophon-IT\ButGitizi\Budgetizi-BackEnd\DB')  
 import base64
+import itertools
 
 from DBConnexion import *
 from GlobalOffre import *
@@ -11,27 +12,27 @@ from Company import *
 from OffresStep4 import *
 from Negotiation import *
 
-def checkIntoGlobalOffre(idOffre,phoneNumberOfUser):
-    try:
-        selectRequette = []
-        selectRequette2 = []
+# def checkIntoGlobalOffre(idOffre,phoneNumberOfUser):
+#     try:
+#         selectRequette = []
+#         selectRequette2 = []
 
-        compan = session.query(Company).filter(Company.phoneNumberClientCompany == phoneNumberOfUser)
-        for cp in compan:
-            selectRequette.append(cp.companyId)
+#         compan = session.query(Company).filter(Company.phoneNumberClientCompany == phoneNumberOfUser)
+#         for cp in compan:
+#             selectRequette.append(cp.companyId)
 
-        globOff = session.query(GlobalOffre).filter(and_(GlobalOffre.idOffre==idOffre,GlobalOffre.companyId==selectRequette[0]))
-        for gO in globOff:
-            selectRequette2.append(gO.idOffre)
+#         globOff = session.query(GlobalOffre).filter(and_(GlobalOffre.idOffre==idOffre,GlobalOffre.companyId==selectRequette[0]))
+#         for gO in globOff:
+#             selectRequette2.append(gO.idOffre)
             
-        if (not selectRequette or not selectRequette2):
-            return 0
-        else:
-            return 1
-        print("Sucess check it")
-    except:
-        print("There is a problem please check your data on table GlobalOffre")
-        return 0
+#         if (not selectRequette or not selectRequette2):
+#             return 0
+#         else:
+#             return 1
+#         print("Sucess check it")
+#     except:
+#         print("There is a problem please check your data on table GlobalOffre")
+#         return 0
 
 def insertIntoOffresStep4(idOffre,ref,nomProduit,pDVHT,quantite,valueSendMarge,valueSendRemise,desc):
     try:
@@ -39,6 +40,8 @@ def insertIntoOffresStep4(idOffre,ref,nomProduit,pDVHT,quantite,valueSendMarge,v
         tRemsise = quantite * pDVHT * (valueSendRemise / 100)
         totaleHTProduct = quantite * pDVHT + tMarge - tRemsise
         totaleTTCProduct = totaleHTProduct * 1.19
+
+
 
         session.add(OffresStep4(idOffre=idOffre,referenceProduit=ref,nomProduit=nomProduit,prixUnitaire=pDVHT,quantity=quantite,marge=valueSendMarge,remise=valueSendRemise,totaleApresMarge=tMarge,totaleApresRemise=tRemsise,totaleHT=totaleHTProduct,totaleTTC=totaleTTCProduct,description=desc))
         session.commit()
@@ -51,26 +54,51 @@ def insertIntoOffresStep4(idOffre,ref,nomProduit,pDVHT,quantite,valueSendMarge,v
         return 0
 
 def getInformationsOfProduct(idOffreSend,phoneNumberOfUser):
-    try:
-        selectRequette1 = []
-        selectRequette2 = []
+    # try:
+    selectRequette = []
+    selectRequette1 = []
+    selectRequette2 = []
+    totlaleRevient = 0
+    margeNetTot = 0
 
-        comap = session.query(Company).filter(Company.phoneNumberClientCompany == phoneNumberOfUser)
-        for gO in comap:
-            selectRequette1.append(gO.companyId)
+    comap = session.query(Company).filter(Company.phoneNumberClientCompany == phoneNumberOfUser)
+    for gO in comap:
+        selectRequette1.append(gO.companyId)
 
-        if(selectRequette1[0]):
-            productStep4 = session.query(OffresStep4).filter(OffresStep4.idOffre == idOffreSend)
+    qry = session.query(func.sum(OffresStep4.quantity), 
+    func.sum(OffresStep4.totaleHT),
+    func.sum(OffresStep4.totaleTTC),
+    ).filter(OffresStep4.idOffre==idOffreSend).group_by(OffresStep4.idOffre)
 
-            for pS4 in productStep4:
-                selectRequette2.append(OffresStep4Model(pS4.idOffre, pS4.referenceProduit, pS4.nomProduit, pS4.prixUnitaire, pS4.quantity, pS4.marge, pS4.remise, pS4.totaleApresMarge, pS4.totaleApresRemise, pS4.totaleHT, pS4.totaleTTC))
 
-            return selectRequette2
-        else:
+    if(selectRequette1[0]):
+        productStep4 = session.query(OffresStep4).filter(OffresStep4.idOffre == idOffreSend)
+
+        for pS4 in productStep4:
+            margeNetTot += pS4.totaleHT
+            totlaleRevient += pS4.prixUnitaire * pS4.quantity
+        margeNetTotale = margeNetTot - totlaleRevient
+
+        # print("Totale Revient: ")
+        # print(totlaleRevient)
+        # print("Totale Marge: ")
+        # print(margeNetTotale)
+
+        # globOffre = session.query(GlobalOffre).filter(GlobalOffre.idOffre == idOffreSend).first()
+        # globOffre.globalMargeNete = globOffre.globalMargeNete + margeNetTotale
+        # globOffre.prixRevientTotalefromStep4 = totlaleRevient
+        # globOffre.margeNetTotalefromStep4 = margeNetTotale
+        # session.commit()
+
+        produStep4 = session.query(OffresStep4).filter(OffresStep4.idOffre == idOffreSend)
+        for prodSte4 in produStep4:
+            selectRequette2.append(OffresStep4Model(prodSte4.idOffre, prodSte4.referenceProduit, prodSte4.nomProduit, prodSte4.prixUnitaire, prodSte4.quantity, prodSte4.marge, prodSte4.remise, prodSte4.totaleApresMarge, prodSte4.totaleApresRemise, prodSte4.totaleHT, prodSte4.totaleTTC))
+        return selectRequette2
+    else:
             print("You can acces to the offre step4")
-    except:
-        print("There is a probleme please try again !!")
-        return 1
+    # except:
+    #     print("There is a probleme please try again !!")
+        # return 1
 
 def updateInformationOfStep4ToDB(idOffre,referenceProduit,nomProduit,prixUnitaire,quantity,marge,remise):
 
@@ -107,6 +135,11 @@ def deleteAnWorkerFromOffreStep4UsingDB(idOffre,referenceProduit):
 
 def calculPhase4OffreFromDB(idOffreSend):
     selectRequette = []
+    selRequette = []
+    selectRequette4 = []
+    selectRequette5 = []
+    priceRevient = 0
+
     qry = session.query(func.sum(OffresStep4.quantity), 
         func.sum(OffresStep4.totaleHT),
         func.sum(OffresStep4.totaleTTC),
@@ -117,23 +150,57 @@ def calculPhase4OffreFromDB(idOffreSend):
         selectRequette.append(_res[1])
         selectRequette.append(_res[2])
 
-    print("Hhhhhhhhhhhhhhh")
-    print(selectRequette)
-    pS4 = session.query(GlobalOffre).filter(GlobalOffre.idOffre == idOffreSend)
-    for i in pS4:
-        valProp = i.globalProposition
-    productStep4 = session.query(GlobalOffre).filter(GlobalOffre.idOffre == idOffreSend).first()
-    productStep4.globalPropositionStPr = valProp + selectRequette[1]
-    print(productStep4.globalPropositionStPr)
-    print(valProp + selectRequette[1])
-    productStep4.totaleFinalHT = selectRequette[1]
-    productStep4.totaleFinalTTC = selectRequette[2]
-    session.commit()
+    if(not selectRequette):
+        print("Is empty !!!")
+        pS4 = session.query(GlobalOffre).filter(GlobalOffre.idOffre == idOffreSend)
+        for i in pS4:
+            valProp = i.globalProposition
 
-    # neg = session.query(Negotiation).filter(Negotiation.idOffre == idOffreSend).first()
-    # neg.globalPropositionStPrWR = valProp + selectRequette[1]
-    # print(neg.globalPropositionStPrWR)
-    # session.commit()
+        productStep4 = session.query(GlobalOffre).filter(GlobalOffre.idOffre == idOffreSend).first()
+        productStep4.globalPropositionStPr = valProp
+        print(productStep4.globalPropositionStPr)
+        print(valProp)
+        productStep4.totaleFinalHT = 0
+        productStep4.totaleFinalTTC = 0
+        session.commit()
 
+        glob = session.query(GlobalOffre).filter(GlobalOffre.idOffre == idOffreSend).first()
+        print(glob.globalMargeNete)
+        mageNetFinale = glob.globalMargeNete
+
+        print("Marge Finale")
+        print(mageNetFinale)
+        nego2 = session.query(Negotiation).filter(Negotiation.idOffre==idOffreSend)  
+        nego2.globalMargeNetteStPrWR = mageNetFinale
+        session.commit()
+        
+    else:
+        pS4 = session.query(GlobalOffre).filter(GlobalOffre.idOffre == idOffreSend)
+        for i in pS4:
+            valProp = i.globalProposition
+
+        print("Hhhhhhhhhhhhhhh")
+        print(selectRequette[1])
+        print(valProp)
+        
+        productStep4 = session.query(GlobalOffre).filter(GlobalOffre.idOffre == idOffreSend).first()
+        productStep4.globalPropositionStPr = valProp + selectRequette[1]
+        print(productStep4.globalPropositionStPr)
+        print(valProp + selectRequette[1])
+        productStep4.totaleFinalHT = selectRequette[1]
+        productStep4.totaleFinalTTC = selectRequette[2]
+        session.commit()
+
+        glob = session.query(GlobalOffre).filter(GlobalOffre.idOffre == idOffreSend).first()
+        print(glob.globalMargeNete)
+        mageNetFinale = glob.globalMargeNete
+
+        print("Marge Finale")
+        print(mageNetFinale)
+        nego2 = session.query(Negotiation).filter(Negotiation.idOffre==idOffreSend)  
+        nego2.globalMargeNetteStPrWR = mageNetFinale
+        session.commit()
+
+    
 
     

@@ -63,10 +63,12 @@ def signInWithEmailAndPassword(emailAdress,passwordUser):
 
 #Function for check the code of sms
 def checkTheCodeFromDB(emailAdress,codeNotif):
-    selectRequette=""
-    clientCompany = session.query(ClientCompany).filter(or_(ClientCompany.verifNumber == codeNotif, ClientCompany.email == emailAdress))
+    selectRequette=[]
+    clientCompany = session.query(ClientCompany).filter(and_(ClientCompany.verifNumber == codeNotif, ClientCompany.email == emailAdress))
     for cC in clientCompany:
-        selectRequette = cC.verifNumber
+        selectRequette.append(cC.verifNumber)
+
+    print(selectRequette)
     return selectRequette
 
 #Function for get all the information of our user

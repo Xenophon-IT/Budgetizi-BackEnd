@@ -172,3 +172,11 @@ def getAllNesscaryInformationDB(idOffreSend,phoneNumber):
 
 # print(getAllNesscaryInformationDB("JustGroup-01","+21653786397"))
 
+def checkTheCurrentCompte(phoneUser,emailProfile):
+    lisOfCltComapnies = []
+    cltCompany = session.query(ClientCompany).filter(and_(ClientCompany.phoneNumber==phoneUser,ClientCompany.email == emailProfile)).first()
+    lisOfCltComapnies.append(cltCompany.phoneNumber)
+    if(not lisOfCltComapnies):
+        return 0
+    else:
+        return 1

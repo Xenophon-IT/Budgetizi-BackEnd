@@ -12,9 +12,11 @@ async def archivesOffres(request: Request):
 
     #This function is for register of our client and you find it in the file named by BackendScript
     resutFunction = getAllOffres(phoneNumber)
+    resutFunction2 = getAllOffresFromDB(phoneNumber)
 
     return {
-        "resutFunction": resutFunction # 0: the phone number is use it | 1: ok ok
+        "resutFunction": resutFunction, # 0: the phone number is use it | 1: ok ok
+        "resutFunction2":resutFunction2
     }
 
 @app.post("/company/getOffreFromArchives")

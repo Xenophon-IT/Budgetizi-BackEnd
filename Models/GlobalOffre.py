@@ -18,7 +18,7 @@ class GlobalOffreModel():
 
 
 class GlobalOffreFinal():
-    def __init__(self,idOffre,globalDaysOfWork,globalProposition,globalRevient,globalRevientAndFG,globalMargeBrute,globalMargeNete,globalFinaleMarge,totaleFinalHT,totaleFinalTTC,companyId):
+    def __init__(self,idOffre,globalDaysOfWork,globalProposition,globalRevient,globalRevientAndFG,globalMargeBrute,globalMargeNete,globalFinaleMarge,totaleFinalHT,totaleFinalTTC,companyId,prixRevientTotalefromStep4,margeNetTotalefromStep4):
         self.idOffre = idOffre
         self.globalDaysOfWork  = globalDaysOfWork
         self.globalProposition = globalProposition
@@ -30,6 +30,8 @@ class GlobalOffreFinal():
         self.totaleFinalHT = totaleFinalHT
         self.totaleFinalTTC = totaleFinalTTC
         self.companyId = companyId
+        self.prixRevientTotalefromStep4 = prixRevientTotalefromStep4
+        self.margeNetTotalefromStep4 = margeNetTotalefromStep4
 
 
 class AllOffres():
@@ -43,6 +45,16 @@ class AllOffres():
         self.status = status
         self.remisePercent = remisePercent
         self.description = description
+
+class AllOffresFromDB():
+    def __init__(self,idOffre,dateCreation,totalePropositionS1,totalePropositionS2,totalePropositionS3,margeNetTotalefromStep4,prixRevientTotalefromStep4):
+        self.idOffre = idOffre
+        self.dateCreation = dateCreation
+        self.totalePropositionS1 = totalePropositionS1
+        self.totalePropositionS2 = totalePropositionS2
+        self.totalePropositionS3 = totalePropositionS3
+        self.margeNetTotalefromStep4 = margeNetTotalefromStep4
+        self.prixRevientTotalefromStep4 = prixRevientTotalefromStep4
 
 class GlobalOffre(Base):
     __tablename__ = 'GlobalOffre'
@@ -58,6 +70,8 @@ class GlobalOffre(Base):
     totaleFinalHT = Column(Float, nullable=True)
     totaleFinalTTC = Column(Float, nullable=True)
     dateCreation = Column(String(255), nullable=True)
+    prixRevientTotalefromStep4 = Column(Float, nullable=True)
+    margeNetTotalefromStep4 = Column(Float, nullable=True)
     companyId = Column(Integer, ForeignKey(Company.companyId),nullable=True)
 
 Base.metadata.create_all(engine)

@@ -79,3 +79,17 @@ async def getAllNesscaryInformation(request: Request):
 
     }
     
+#This request post for get all the informations of companys user
+@app.post("/company/checkLocalStorageValue")
+async def getAllNesscaryInformation(request: Request):
+    req = await request.json()
+    phoneUser = req['phoneUser']
+    emailProfile = req['emailProfile']
+
+    print(phoneUser)
+    print(emailProfile)
+    resutFunction = checkTheCurrentCompte(phoneUser,emailProfile)
+    return {
+        "resutFunction": resutFunction
+    }
+    

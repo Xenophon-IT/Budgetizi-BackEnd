@@ -57,6 +57,7 @@ async def checkCodeNotif(request: Request):
 
     resutFunction = checkTheCodeFromDB(emailAdress,codeNotif)
 
+    print(resutFunction)
     if(not resutFunction):
         variableCodeCheck = 0
         print("There's not code !")

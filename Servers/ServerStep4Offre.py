@@ -95,7 +95,7 @@ async def calculPhase4Offre(request: Request):
     idOffreSend = req['idOffreSend']
 
     resutFunction = calculPhase4OffreFromDB(idOffreSend)
-    # resutFunction = getInformationFromOffresStep2(idOffreSend,phoneNumber)
+    # resutFunction = getInformationFromOffresStep3(idOffreSend,phoneNumber)
 
     return {
         "resutFunction" : resutFunction
